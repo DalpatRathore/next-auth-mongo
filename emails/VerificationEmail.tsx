@@ -33,15 +33,15 @@ export default function VerificationEmail({
           <Section style={coverSection}>
             <Section style={imageSection}>
               <Img
-                src={`${baseUrl}/static/aws-logo.png`}
-                width="75"
-                height="45"
-                alt="AWS's Logo"
+                src={"https://dalpatrathore.vercel.app/logo.png"}
+                width="65"
+                height="65"
+                alt="logo"
               />
             </Section>
             <Section style={upperSection}>
               <Heading style={h1}>Hi, {username}</Heading>
-              <Heading style={h1}>Verify your email address</Heading>
+              <Heading as="h2">Verify your email address</Heading>
               <Text style={mainText}>
                 Thanks for starting the new account creation process. We want to
                 make sure its really you. Please enter the following
@@ -50,7 +50,6 @@ export default function VerificationEmail({
               </Text>
               <Section style={verificationSection}>
                 <Text style={verifyText}>Verification code</Text>
-
                 <Text style={codeText}>{verificationCode}</Text>
                 <Text style={validityText}>
                   (This code is valid for 10 minutes)
@@ -60,18 +59,17 @@ export default function VerificationEmail({
             <Hr />
             <Section style={lowerSection}>
               <Text style={cautionText}>
-                Amazon Web Services will never email you and ask you to disclose
-                or verify your password, credit card, or banking account number.
+                Web Services will never email you and ask you to disclose or
+                verify your password, credit card, or banking account number.
               </Text>
             </Section>
           </Section>
           <Text style={footerText}>
-            This message was produced and distributed by Amazon Web Services,
-            Inc., 410 Terry Ave. North, Seattle, WA 98109. © 2022, Amazon Web
-            Services, Inc.. All rights reserved. AWS is a registered trademark
-            of{" "}
+            This message was produced and distributed by Web Services, Inc., 410
+            Terry Ave. North, Seattle, WA 98109. © 2024, Web Services, Inc.. All
+            rights reserved. Web Services is a registered trademark of{" "}
             <Link href="/" target="_blank" style={link}>
-              Amazon.com
+              dalpatrathore.vercel.com
             </Link>
             , Inc. View our{" "}
             <Link href="/" target="_blank" style={link}>
@@ -122,9 +120,9 @@ const text = {
 };
 
 const imageSection = {
-  backgroundColor: "#252f3d",
+  backgroundColor: "#05162d",
   display: "flex",
-  padding: "20px 0",
+  padding: "20px 10px",
   alignItems: "center",
   justifyContent: "center",
 };
@@ -163,9 +161,9 @@ const validityText = {
 };
 
 const verificationSection = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  // display: "flex",
+  // alignItems: "center",
+  // justifyContent: "center",
 };
 
 const mainText = { ...text, marginBottom: "14px" };
