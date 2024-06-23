@@ -80,7 +80,7 @@ const SignUpPage = () => {
     console.log(values);
     setIsSubmitting(true);
     try {
-      const response = await axios.post<ApiResponse>("", values);
+      const response = await axios.post<ApiResponse>("/api/sign-up", values);
       toast({
         title: "Success",
         description: response.data.message,
@@ -204,8 +204,8 @@ const SignUpPage = () => {
                 >
                   {isSubmitting ? (
                     <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       Processing...
-                      <Loader2 className="w-4 h-4 ml-2 animate-spin" />
                     </>
                   ) : (
                     "Create an account"
