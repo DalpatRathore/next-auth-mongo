@@ -18,26 +18,53 @@ import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { signInSchema } from "@/schemas/signInSchema";
+import { signIn } from "next-auth/react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { useState } from "react";
 
 const SignInPage = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const { toast } = useToast();
+  const router = useRouter();
+  const [viewPassword, setViewPassword] = useState(false);
+
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
-      username: "",
+      identifier: "",
+      password: "",
     },
   });
+
+  const { isSubmitting } = form.formState;
+
+  const onSubmit = async (values: z.infer<typeof signInSchema>) => {
+    const result = await signIn("credentials", {
+      redirect: false,
+      identifier: values.identifier,
+      password: values.password,
+    });
+
+    if (result?.error) {
+      toast({
+        title: "Login Failed",
+        description: "Incorrect username or password",
+        variant: "destructive",
+      });
+    }
+
+    if (result?.url) {
+      router.replace("/dashboard");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen">
       <Card className="mx-auto max-w-lg w-full">
@@ -48,56 +75,75 @@ const SignInPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {/* <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form> */}
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="identifier"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email/Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Please enter your email/username"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="#"
-                  className="ml-auto inline-block text-sm underline"
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <div className="flex items-center gap-1">
+                      <FormControl>
+                        <Input
+                          type={`${viewPassword ? "text" : "password"}`}
+                          placeholder="Please provide password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <Button
+                        type="button"
+                        size={"icon"}
+                        variant={"outline"}
+                        onClick={() => setViewPassword(prev => !prev)}
+                      >
+                        {viewPassword ? (
+                          <Eye className="w-5 h-5"></Eye>
+                        ) : (
+                          <EyeOff className="w-5 h-5"></EyeOff>
+                        )}
+                      </Button>
+                    </div>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isSubmitting}
                 >
-                  Forgot your password?
-                </Link>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
               </div>
-              <Input id="password" type="password" required />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-            <Button variant="outline" className="w-full">
-              Login with Google
-            </Button>
-          </div>
+            </form>
+          </Form>
+
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link href="/sign-up" className="underline text-blue-600 font-bold">
