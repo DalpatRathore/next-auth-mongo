@@ -24,7 +24,7 @@ export async function GET(request: Request) {
       return Response.json(
         {
           success: false,
-          message: "Invalid query parameters",
+          message: "Username must be atleast 3 characters",
         },
         { status: 400 }
       );
@@ -40,7 +40,7 @@ export async function GET(request: Request) {
       return Response.json(
         {
           success: false,
-          message: "Username is already taken",
+          message: "username is already taken",
         },
         { status: 400 }
       );
@@ -48,7 +48,7 @@ export async function GET(request: Request) {
     return Response.json(
       {
         success: true,
-        message: "Username is available",
+        message: "username is available",
       },
       { status: 200 }
     );
