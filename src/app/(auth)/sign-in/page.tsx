@@ -66,7 +66,7 @@ const SignInPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex items-center justify-center h-[90%]">
       <Card className="mx-auto max-w-lg w-full">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
