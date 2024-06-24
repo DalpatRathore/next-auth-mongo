@@ -1,9 +1,12 @@
+import { HeroTypingText } from "@/components/HeroTypingText";
+import ParallaxSection from "@/components/ParallaxScroll";
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Dalpat Rathore</h1>
+    <main className="flex h-[90%] flex-col items-center justify-between py-10 max-w-7xl mx-auto">
+      <HeroTypingText></HeroTypingText>
+      <ParallaxSection></ParallaxSection>
     </main>
   );
 }
