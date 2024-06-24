@@ -52,6 +52,8 @@ const SignInPage = () => {
       password: values.password,
     });
 
+    console.log(result);
+
     if (result?.error) {
       toast({
         title: "Login Failed",
@@ -61,7 +63,8 @@ const SignInPage = () => {
     }
 
     if (result?.url) {
-      router.replace("/dashboard");
+      console.log(result?.ok);
+      router.push("/dashboard");
     }
   };
 

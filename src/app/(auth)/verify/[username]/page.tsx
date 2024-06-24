@@ -41,7 +41,7 @@ const VerifyAccountPage = () => {
   const { isSubmitting } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof verifySchema>) => {
-    console.log(values);
+    // console.log(values);
     try {
       const response = await axios.post<ApiResponse>("/api/verify-code", {
         username: param.username,
