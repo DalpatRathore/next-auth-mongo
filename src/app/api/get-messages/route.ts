@@ -24,7 +24,7 @@ export async function GET(request: Request) {
 
   const user: User = session.user as User;
   const userId = new mongoose.Types.ObjectId(user._id);
-  console.log(`User ID: ${userId}`);
+  // console.log(`User ID: ${userId}`);
 
   try {
     // Check if user exists
@@ -41,7 +41,7 @@ export async function GET(request: Request) {
       );
     }
 
-    console.log("User exists, proceeding with aggregation...");
+    // console.log("User exists, proceeding with aggregation...");
 
     // Aggregation pipeline
     const aggregatedUser = await UserModel.aggregate([
@@ -63,7 +63,7 @@ export async function GET(request: Request) {
       );
     }
 
-    console.log("Aggregation successful", aggregatedUser);
+    // console.log("Aggregation successful", aggregatedUser);
 
     return NextResponse.json(
       {

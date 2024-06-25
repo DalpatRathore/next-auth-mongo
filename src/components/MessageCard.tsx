@@ -21,11 +21,20 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import { X } from "lucide-react";
+import {
+  CalendarDays,
+  MessageCircleHeart,
+  MessageCircleMore,
+  MessageSquare,
+  MessagesSquare,
+  Trash2,
+  X,
+} from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import axios from "axios";
 import { ApiResponse } from "../../types/api-response";
 import { Message } from "@/model/user";
+import { formatDateTime } from "@/helpers/format";
 
 type MessageCardProps = {
   message: Message;
@@ -45,15 +54,17 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
     });
     onMessageDelete(message._id);
   };
+
   return (
-    <Card className="mx-auto max-w-lg w-full">
+    <Card className="mx-auto max-w-lg w-full relative">
       <CardHeader>
-        <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+        <CardTitle>
+          <MessagesSquare className="w-10 h-10"></MessagesSquare>
+        </CardTitle>
         <AlertDialog>
-          <AlertDialogTrigger asChild>
+          <AlertDialogTrigger asChild className="absolute bottom-2 right-2">
             <Button variant={"destructive"} size={"icon"}>
-              <X className="w-5 h-5"></X>
+              <Trash2 className="w-5 h-5"></Trash2>
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
@@ -73,9 +84,12 @@ const MessageCard = ({ message, onMessageDelete }: MessageCardProps) => {
           </AlertDialogContent>
         </AlertDialog>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>{message.content}</CardContent>
       <CardFooter>
-        <p>Card Footer</p>
+        <p className="flex items-center justify-center text-muted-foreground text-sm">
+          <CalendarDays className="w-5 h-5 mr-2"></CalendarDays>
+          {formatDateTime(message.createdAt)}
+        </p>
       </CardFooter>
     </Card>
   );
