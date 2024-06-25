@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { LayoutDashboard, LogIn, LogOut, UserRound } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
   const { data: session } = useSession();
@@ -18,9 +19,19 @@ const Header = () => {
           <Image src={"/logo.svg"} width={125} height={125} alt="logo"></Image>
         </Link>
       </div>
-      <nav>
+      <nav className="flex items-center gap-3">
         {session ? (
           <div className="flex items-center justify-center gap-3">
+            <p className="">
+              Welcome, @
+              <span className="font-bold underline">
+                {user?.username || user?.email}
+              </span>
+            </p>
+            <Button onClick={() => signOut()} variant={"outline"}>
+              <LogOut className="w-4 h-4 mr-2"></LogOut>
+              Logout
+            </Button>
             <Link href={"/dashboard"}>
               <Button>
                 <LayoutDashboard className="w-4 h-4"></LayoutDashboard>
@@ -31,17 +42,6 @@ const Header = () => {
                 <UserRound className="w-4 h-4"></UserRound>
               </Button>
             </Link>
-            <p className="">
-              Welcome,
-              <span className="font-bold italic">
-                {user?.username || user?.email}
-              </span>{" "}
-              !
-            </p>
-            <Button onClick={() => signOut()} variant={"outline"}>
-              <LogOut className="w-4 h-4 mr-2"></LogOut>
-              Logout
-            </Button>
           </div>
         ) : (
           <>
@@ -53,6 +53,7 @@ const Header = () => {
             </Link>
           </>
         )}
+        <ThemeToggle></ThemeToggle>
       </nav>
     </header>
   );

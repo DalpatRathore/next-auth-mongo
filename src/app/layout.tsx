@@ -5,6 +5,7 @@ import AuthProvider from "@/context/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,10 +23,17 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <body className={inter.className}>
-          <Header></Header>
-          <Toaster />
-          {children}
-          <Footer></Footer>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header></Header>
+            <Toaster />
+            {children}
+            <Footer></Footer>
+          </ThemeProvider>
         </body>
       </AuthProvider>
     </html>
