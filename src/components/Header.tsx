@@ -5,7 +5,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { LogIn, LogOut } from "lucide-react";
+import { LayoutDashboard, LogIn, LogOut, UserRound } from "lucide-react";
 
 const Header = () => {
   const { data: session } = useSession();
@@ -20,9 +20,19 @@ const Header = () => {
       </div>
       <nav>
         {session ? (
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-3">
+            <Link href={"/dashboard"}>
+              <Button>
+                <LayoutDashboard className="w-4 h-4"></LayoutDashboard>
+              </Button>
+            </Link>
+            <Link href={`/user/${user?.username}`}>
+              <Button>
+                <UserRound className="w-4 h-4"></UserRound>
+              </Button>
+            </Link>
             <p className="">
-              Welcome,{" "}
+              Welcome,
               <span className="font-bold italic">
                 {user?.username || user?.email}
               </span>{" "}

@@ -110,7 +110,7 @@ const DashboardPage = () => {
   }, [session, fetchAcceptMessage, fetchMessages]);
 
   const handleSwitchChange = async () => {
-    console.log(acceptMessages);
+    // console.log(acceptMessages);
     try {
       const response = await axios.post<ApiResponse>("/api/accept-messages", {
         acceptMessages: !acceptMessages,
