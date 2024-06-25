@@ -15,6 +15,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import {
   Copy,
+  Link,
   Loader2,
   MessageCircle,
   MessageCircleHeart,
@@ -161,17 +162,16 @@ const DashboardPage = () => {
 
   return (
     <div className="mt-10 w-full max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
 
-      <div className="">
-        <h2 className="text-lg font-semibold">Unique Link</h2>
-        <div className="flex items-center gap-2">
-          <Input type="text" value={profileUrl} disabled />
-          <Button onClick={copyToClipboard}>
-            <Copy className="w-4 h-4 mr-1"></Copy>
-            Copy
-          </Button>
-        </div>
+      <div className="w-full flex items-center justify-start gap-1 my-10">
+        <Link></Link>
+        <h2 className="text-lg font-semibold shrink-0">Unique Link:</h2>
+        <Input type="text" value={profileUrl} disabled />
+        <Button onClick={copyToClipboard}>
+          <Copy className="w-4 h-4 mr-1"></Copy>
+          Copy
+        </Button>
       </div>
 
       <Separator className="my-5" />
@@ -189,6 +189,7 @@ const DashboardPage = () => {
           </span>
         </div>
         <Button
+          title="Fetch latest messages"
           className="mt-4"
           variant="outline"
           onClick={e => {

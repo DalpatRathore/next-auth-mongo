@@ -33,12 +33,12 @@ const Header = () => {
               Logout
             </Button>
             <Link href={"/dashboard"}>
-              <Button>
+              <Button title="Dashboard">
                 <LayoutDashboard className="w-4 h-4"></LayoutDashboard>
               </Button>
             </Link>
             <Link href={`/user/${user?.username}`}>
-              <Button>
+              <Button title="Public Profile Link">
                 <UserRound className="w-4 h-4"></UserRound>
               </Button>
             </Link>

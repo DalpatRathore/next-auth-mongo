@@ -65,7 +65,7 @@ const UsernamePage = ({ params }: { params: { username: string } }) => {
 
   return (
     <div className="mt-10 w-full max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold mb-4">Public Profile Link</h1>
+      <h1 className="text-3xl font-bold mb-4">Public Profile Link</h1>
       <div className="max-w-5xl border-l-8 pl-8 mx-8 my-10">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
