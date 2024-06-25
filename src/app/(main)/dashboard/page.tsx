@@ -160,8 +160,8 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="my-5 w-full max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
+    <div className="mt-10 w-full max-w-7xl mx-auto">
+      <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
 
       <div className="">
         <h2 className="text-lg font-semibold">Unique Link</h2>
@@ -207,7 +207,7 @@ const DashboardPage = () => {
       <Separator className="my-5" />
 
       {messages.length > 0 ? (
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-5">
           {messages.map(message => (
             <MessageCard
               key={message._id}

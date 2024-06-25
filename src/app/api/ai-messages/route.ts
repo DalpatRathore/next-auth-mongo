@@ -26,7 +26,7 @@ const prompt = "Creating a list of three open-ended and engaging questions forma
     
  } catch (error) {
    console.log(error)
-   return NextResponse.json({message:"Failed to fetch ai messages"}).status;
+   return NextResponse.json({message:"Failed to fetch ai messages"},{ status: 500 });
     
  }
 }
