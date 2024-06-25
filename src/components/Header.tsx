@@ -15,8 +15,14 @@ const Header = () => {
   return (
     <header className="w-full max-w-7xl mx-auto border-b px-2 py-4 flex items-center justify-between">
       <div className="logo">
-        <Link href={"/"}>
-          <Image src={"/logo.svg"} width={125} height={125} alt="logo"></Image>
+        <Link href={"/"} className="flex items-center">
+          <Image
+            src={"/logo.svg"}
+            width={75}
+            height={75}
+            alt="logo"
+            style={{ width: "auto", height: "auto" }}
+          ></Image>
         </Link>
       </div>
       <nav className="flex items-center gap-3">
