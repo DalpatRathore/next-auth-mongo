@@ -3,24 +3,31 @@ import type { NextRequest } from "next/server";
 export { default } from "next-auth/middleware";
 import { getToken } from "next-auth/jwt";
 
-// This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request });
-  console.log(token)
-  const url = request.nextUrl;
+const secret = process.env.NEXT_AUTH_SECRET;
 
-  if (
-    token &&
-    (url.pathname.startsWith("/sign-in") ||
-      url.pathname.startsWith("/sign-up") ||
-      url.pathname.startsWith("/verify") ||
-      url.pathname.startsWith("/"))
-  ) {
-    return NextResponse.redirect(new URL("/dasboard", request.url));
+export async function middleware(req: NextRequest) {
+  const token = await getToken({ req, secret });
+  const url = req.nextUrl.clone();  // Clone the URL to safely modify it
+
+  const isAuthPage =
+    url.pathname.startsWith("/sign-in") ||
+    url.pathname.startsWith("/sign-up") ||
+    url.pathname.startsWith("/verify");
+
+  const isDashboardPage = url.pathname.startsWith("/dashboard");
+
+  if (token && isAuthPage) {
+    // If authenticated and on an auth page, redirect to dashboard
+    url.pathname = "/dashboard";
+    return NextResponse.redirect(url);
   }
-  if (!token && url.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+
+  if (!token && isDashboardPage) {
+    // If not authenticated and trying to access dashboard, redirect to sign-in
+    url.pathname = "/sign-in";
+    return NextResponse.redirect(url);
   }
+
   return NextResponse.next();
 }
 

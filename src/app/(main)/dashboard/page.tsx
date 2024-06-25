@@ -85,11 +85,13 @@ const DashboardPage = () => {
     [setIsLoading, setIsSwitching, toast]
   );
 
+  console.log(session);
+
   useEffect(() => {
     if (!session || !session.user) return;
     fetchAcceptMessage();
     fetchMessages();
-  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
+  }, [session, fetchAcceptMessage, fetchMessages]);
 
   const handleSwitchChange = async () => {
     try {
@@ -109,6 +111,10 @@ const DashboardPage = () => {
       });
     }
   };
+
+  if (!session || !session.user) {
+    return <div className="">Please login</div>;
+  }
   const { username } = session?.user as User;
 
   const baseUrl = `${window.location.protocol}//${window.location.host}`;
@@ -117,16 +123,13 @@ const DashboardPage = () => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
-      title: "Url Copied",
+      title: "URL Copied",
       description: "Profile url copied to clip board",
     });
   };
-  if (!session || !session.user) {
-    return <div className="">Please login</div>;
-  }
 
   return (
-    <div className="my-8 w-full mx-w-7xl mx-auto">
+    <div className="my-8 w-full max-w-7xl mx-auto">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
       <div className="mb-4">
         <h2 className="text-lg font-semibold">Unique Link</h2>
