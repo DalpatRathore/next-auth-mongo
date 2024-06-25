@@ -4,58 +4,86 @@ import dbConnect from "@/config/db-connect";
 import UserModel from "@/model/user";
 import { User } from "next-auth";
 import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 
-
-export async function GET(request:Request){
+export async function GET(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
   
-  const user: User = session?.user as User;
-
-  if(!session || !session.user){
-
-    return Response.json({
-      sucess:false,
-      message:"Not Authenitcated"
-    },{
-      status:401
-    })
+  if (!session || !session.user) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Not Authenticated",
+      },
+      {
+        status: 401,
+      }
+    );
   }
+
+  const user: User = session.user as User;
   const userId = new mongoose.Types.ObjectId(user._id);
+  console.log(`User ID: ${userId}`);
+
   try {
-
-    const user = await UserModel.aggregate([
-        {$match:{_id:userId}},
-        {$unwind:'$messages'},
-        {$sort:{'messages.createdAt':-1}},
-        {$group:{_id:'$_id', messages:{$push:'$messages'}}}
-    ]);
-
-    if(!user || user.length ===0){
-        return Response.json({
-            sucess:false,
-            message:"User not found"
-          },{
-            status:404
-          })
-
+    // Check if user exists
+    const userExists = await UserModel.findById(userId);
+    if (!userExists) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User not found",
+        },
+        {
+          status: 404,
+        }
+      );
     }
 
-    return Response.json({
-        sucess:true,
-        messages:user[0].messages,
-      },{
-        status:200
-      })
-    
+    console.log("User exists, proceeding with aggregation...");
+
+    // Aggregation pipeline
+    const aggregatedUser = await UserModel.aggregate([
+      { $match: { _id: userId } },
+      { $unwind: "$messages" },
+      { $sort: { "messages.createdAt": -1 } },
+      { $group: { _id: "$_id", messages: { $push: "$messages" } } },
+    ]);
+
+    if (!aggregatedUser || aggregatedUser.length === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "No messages found",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    console.log("Aggregation successful", aggregatedUser);
+
+    return NextResponse.json(
+      {
+        success: true,
+        messages: aggregatedUser[0].messages,
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
-    console.log("Failed to fetch messages")
-    return Response.json({
-      sucess:false,
-      message:"User not found"
-    },{
-      status:500
-    })
-    
-  } 
+    console.error("Failed to fetch messages:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Internal Server Error",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 }
