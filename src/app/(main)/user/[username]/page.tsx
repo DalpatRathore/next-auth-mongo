@@ -16,7 +16,10 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import { Loader2, Send } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { ApiResponse } from "../../../../../types/api-response";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -24,7 +27,9 @@ const formSchema = z.object({
   }),
 });
 
-const ContentPage = ({ params }: { params: { username: string } }) => {
+const UsernamePage = ({ params }: { params: { username: string } }) => {
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -32,8 +37,30 @@ const ContentPage = ({ params }: { params: { username: string } }) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const { isSubmitting } = form.formState;
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const data = {
+      username: params.username,
+      content: values.content,
+    };
+    try {
+      const response = await axios.post<ApiResponse>("/api/send-message", data);
+
+      if (response.data.success) {
+        toast({
+          title: "Message sent successfully",
+        });
+        form.reset();
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Failed send to message",
+        description: "User not accepting messages. Please try after some time",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -54,7 +81,11 @@ const ContentPage = ({ params }: { params: { username: string } }) => {
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Textarea rows={6} placeholder="Type your message here." />
+                    <Textarea
+                      rows={6}
+                      placeholder="Type your message here."
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     You will only be able to send a message if the user is
@@ -65,9 +96,18 @@ const ContentPage = ({ params }: { params: { username: string } }) => {
               )}
             />
             <div className="flex items-center">
-              <Button type="submit" size={"lg"}>
-                Send
-                <Send className="w-4 h-4 ml-1"></Send>
+              <Button type="submit" size={"lg"} disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-2"></Loader2>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send
+                    <Send className="w-4 h-4 ml-1"></Send>
+                  </>
+                )}
               </Button>
             </div>
           </form>
@@ -77,4 +117,4 @@ const ContentPage = ({ params }: { params: { username: string } }) => {
   );
 };
 
-export default ContentPage;
+export default UsernamePage;

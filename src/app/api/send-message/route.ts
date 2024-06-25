@@ -34,7 +34,7 @@ export async function POST(request:Request){
        await user.save();
 
        return Response.json({
-        sucess:true,
+        success:true,
         message:"Message sent successfully"
       },{
         status:200
