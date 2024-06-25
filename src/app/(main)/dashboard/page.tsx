@@ -58,7 +58,7 @@ const DashboardPage = () => {
     try {
       const response = await axios.get("/api/accept-messages");
       // console.log(response);
-      setValue("acceptMessages", response.data.isAcceptingMessage);
+      setValue("acceptMessages", response.data.isAcceptingMessages);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -106,7 +106,7 @@ const DashboardPage = () => {
   useEffect(() => {
     if (!session || !session.user) return;
     fetchAcceptMessage();
-    // fetchMessages();
+    fetchMessages();
   }, [session, fetchAcceptMessage, fetchMessages]);
 
   const handleSwitchChange = async () => {
