@@ -8,7 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import React from "react";
+import React, { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -20,6 +20,8 @@ import { Loader2, Send } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
 import { ApiResponse } from "../../../../../types/api-response";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
 
 const formSchema = z.object({
   content: z.string().min(10, {
@@ -29,6 +31,10 @@ const formSchema = z.object({
 
 const UsernamePage = ({ params }: { params: { username: string } }) => {
   const { toast } = useToast();
+
+  const { width, height } = useWindowSize();
+
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,6 +50,7 @@ const UsernamePage = ({ params }: { params: { username: string } }) => {
       username: params.username,
       content: values.content,
     };
+    setShowConfetti(false);
     try {
       const response = await axios.post<ApiResponse>("/api/send-message", data);
 
@@ -53,6 +60,7 @@ const UsernamePage = ({ params }: { params: { username: string } }) => {
         });
         form.reset();
       }
+      setShowConfetti(true);
     } catch (error) {
       console.log(error);
       toast({
@@ -64,58 +72,69 @@ const UsernamePage = ({ params }: { params: { username: string } }) => {
   };
 
   return (
-    <div className="mt-10 w-full max-w-7xl mx-auto">
-      <h1 className="text-lg md:text-3xl font-bold mb-4">
-        Public Profile Link
-      </h1>
-      <div className="max-w-5xl border-l-4 pl-4 md:border-l-8 md:pl-8 mx-4 md:mx-8 my-10">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="content"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Send Anonymous Message to @
-                    <span className="underline text-base">
-                      {params.username}
-                    </span>
-                  </FormLabel>
-                  <FormControl>
-                    <Textarea
-                      rows={6}
-                      placeholder="Type your message here."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    You will only be able to send a message if the user is
-                    accepting anonymous messages.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex items-center">
-              <Button type="submit" size={"lg"} disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2"></Loader2>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    Send
-                    <Send className="w-4 h-4 ml-1"></Send>
-                  </>
+    <>
+      {showConfetti && (
+        <Confetti
+          width={width}
+          height={height}
+          numberOfPieces={2000}
+          recycle={false}
+        />
+      )}
+
+      <div className="mt-10 w-full max-w-7xl mx-auto">
+        <h1 className="text-lg md:text-3xl font-bold mb-4">
+          Public Profile Link
+        </h1>
+        <div className="max-w-5xl border-l-4 pl-4 md:border-l-8 md:pl-8 mx-4 md:mx-8 my-10">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Send Anonymous Message to @
+                      <span className="underline text-base">
+                        {params.username}
+                      </span>
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        rows={6}
+                        placeholder="Type your message here."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      You will only be able to send a message if the user is
+                      accepting anonymous messages.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
                 )}
-              </Button>
-            </div>
-          </form>
-        </Form>
+              />
+              <div className="flex items-center">
+                <Button type="submit" size={"lg"} disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2"></Loader2>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send
+                      <Send className="w-4 h-4 ml-1"></Send>
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
