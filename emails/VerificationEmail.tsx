@@ -33,9 +33,9 @@ export default function VerificationEmail({
           <Section style={coverSection}>
             <Section style={imageSection}>
               <Img
-                src={"https://dalpatrathore.vercel.app/logo.png"}
-                width="65"
-                height="65"
+                src={`${baseUrl}/logo.svg`}
+                width="75"
+                height="75"
                 alt="logo"
               />
             </Section>

@@ -17,19 +17,11 @@ import {
   Copy,
   Link,
   Loader2,
-  MessageCircle,
-  MessageCircleHeart,
   MessageCircleOff,
   RefreshCcw,
 } from "lucide-react";
 import MessageCard from "@/components/MessageCard";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardPage = () => {

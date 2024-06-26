@@ -3,7 +3,6 @@ import React from "react";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -21,15 +20,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "./ui/button";
-import {
-  CalendarDays,
-  MessageCircleHeart,
-  MessageCircleMore,
-  MessageSquare,
-  MessagesSquare,
-  Trash2,
-  X,
-} from "lucide-react";
+import { CalendarDays, MessagesSquare, Trash2 } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import axios from "axios";
 import { ApiResponse } from "../../types/api-response";

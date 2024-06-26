@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -77,7 +76,7 @@ const SignUpPage = () => {
   }, [username]);
 
   const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
-    console.log(values);
+    // console.log(values);
     setIsSubmitting(true);
     try {
       const response = await axios.post<ApiResponse>("/api/sign-up", values);
