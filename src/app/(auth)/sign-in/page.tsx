@@ -52,7 +52,7 @@ const SignInPage = () => {
       password: values.password,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (result?.error) {
       toast({
@@ -63,7 +63,7 @@ const SignInPage = () => {
     }
 
     if (result?.url) {
-      console.log(result?.ok);
+      // console.log(result?.ok);
       router.push("/dashboard");
     }
   };
