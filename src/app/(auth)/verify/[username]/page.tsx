@@ -65,7 +65,7 @@ const VerifyAccountPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[90%]">
+    <div className="flex items-center justify-center h-[90%] px-3">
       <Card className="mx-auto max-w-lg w-full">
         <CardHeader>
           <CardTitle className="text-xl">Verify Your Account</CardTitle>

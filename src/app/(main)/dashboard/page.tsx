@@ -162,10 +162,9 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="mt-10 w-full max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
-
-      <div className="w-full flex items-center justify-start gap-1 my-10">
+    <div className="mt-10 w-full max-w-7xl mx-auto px-3">
+      <h1 className="text-lg md:text-3xl font-bold mb-4">Dashboard</h1>
+      <div className="w-full flex flex-col md:flex-row items-center justify-start gap-1 my-10">
         <Link></Link>
         <h2 className="text-lg font-semibold shrink-0">Unique Link:</h2>
         <Input type="text" value={profileUrl} disabled />
@@ -177,7 +176,7 @@ const DashboardPage = () => {
 
       <Separator className="my-5" />
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="">
           <Switch
             {...register("acceptMessages")}

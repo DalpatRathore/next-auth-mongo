@@ -25,29 +25,31 @@ const Header = () => {
           ></Image>
         </Link>
       </div>
-      <nav className="flex items-center gap-3">
+      <nav className="flex items-start md:items-center gap-3">
         {session ? (
-          <div className="flex items-center justify-center gap-3">
-            <p className="">
+          <div className="flex flex-col-reverse md:flex-row items-center justify-center gap-3">
+            <p className="text-right">
               Welcome, @
               <span className="font-bold underline">
                 {user?.username || user?.email}
               </span>
             </p>
-            <Button onClick={() => signOut()} variant={"outline"}>
-              <LogOut className="w-4 h-4 mr-2"></LogOut>
-              Logout
-            </Button>
-            <Link href={"/dashboard"}>
-              <Button title="Dashboard">
-                <LayoutDashboard className="w-4 h-4"></LayoutDashboard>
+            <div className="flex items-center gap-1">
+              <Button onClick={() => signOut()} variant={"outline"}>
+                <LogOut className="w-4 h-4 mr-2"></LogOut>
+                Logout
               </Button>
-            </Link>
-            <Link href={`/user/${user?.username}`}>
-              <Button title="Public Profile Link">
-                <UserRound className="w-4 h-4"></UserRound>
-              </Button>
-            </Link>
+              <Link href={"/dashboard"}>
+                <Button title="Dashboard">
+                  <LayoutDashboard className="w-4 h-4"></LayoutDashboard>
+                </Button>
+              </Link>
+              <Link href={`/user/${user?.username}`}>
+                <Button title="Public Profile Link">
+                  <UserRound className="w-4 h-4"></UserRound>
+                </Button>
+              </Link>
+            </div>
           </div>
         ) : (
           <>

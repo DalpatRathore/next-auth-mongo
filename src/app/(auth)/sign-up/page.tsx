@@ -100,7 +100,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[90%]">
+    <div className="flex items-center justify-center h-[90%] px-5">
       <Card className="mx-auto max-w-lg w-full">
         <CardHeader>
           <CardTitle className="text-xl">Sign Up</CardTitle>
