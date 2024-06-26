@@ -1,6 +1,5 @@
 import { HeroTypingText } from "@/components/HeroTypingText";
 import ParallaxSection from "@/components/ParallaxScroll";
-import Image from "next/image";
 
 export default function Home() {
   return (

@@ -57,6 +57,19 @@ export default function VerificationEmail({
               </Section>
             </Section>
             <Hr />
+            <Link
+              href={`${baseUrl}/verify/${username}`}
+              target="_blank"
+              style={{
+                ...link,
+                display: "block",
+                marginBottom: "16px",
+                textAlign: "center",
+              }}
+            >
+              {`${baseUrl}/verify/${username}`}
+            </Link>
+            <Hr />
             <Section style={lowerSection}>
               <Text style={cautionText}>
                 Web Services will never email you and ask you to disclose or
