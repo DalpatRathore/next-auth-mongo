@@ -30,6 +30,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -140,7 +141,7 @@ const DashboardPage = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground italic">Messages fetching...</p>
+            <p className="text-muted-foreground italic">Fetching Messages...</p>
           </CardContent>
         </Card>
       </div>
@@ -207,7 +208,13 @@ const DashboardPage = () => {
 
       <Separator className="my-5" />
 
-      {messages.length > 0 ? (
+      {isLoading ? (
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-5">
+          {new Array(6).fill(null).map((_, index) => (
+            <SkeletonLoading key={index}></SkeletonLoading>
+          ))}
+        </div>
+      ) : messages.length > 0 ? (
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-5">
           {messages.map(message => (
             <MessageCard
@@ -236,3 +243,17 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
+
+const SkeletonLoading = () => {
+  return (
+    <div className="mx-auto max-w-lg w-full border rounded-xl p-2 space-y-2">
+      <Skeleton className="h-12 w-12" />
+
+      <Skeleton className="h-[125px] w-full rounded-xl" />
+      <div className="space-y-2 flex items-center justify-between gap-2">
+        <Skeleton className="h-10 w-1/2" />
+        <Skeleton className="h-10 w-10" />
+      </div>
+    </div>
+  );
+};
