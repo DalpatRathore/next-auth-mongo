@@ -1,5 +1,5 @@
 {
-  "name": "next-ai-msg",
+  "name": "next-auth-mongo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
